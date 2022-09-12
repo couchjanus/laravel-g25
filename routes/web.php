@@ -26,3 +26,16 @@ Route::get('/hello', function () {
     // return view('hello', compact('name'));
     return view('hello')->with('name', $name);
 });
+
+Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about-us');
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact-us');
+
+Route::name('admin.')->group(
+    function() {
+        Route::get('/admin', 'App\Http\Controllers\Admin\DashboardController')->name('dashboard');
+
+        Route::resource('brands', 'App\Http\Controllers\Admin\BrandController');
+        Route::resource('categories', 'App\Http\Controllers\Admin\CategoryController');
+    }
+);
+

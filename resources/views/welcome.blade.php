@@ -44,7 +44,11 @@
                         </g>
                     </svg>
                 </div>
-
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="{{ route('contact-us') }}">Contact Us</a></li>
+                    <li><a href="{{ route('about-us') }}">About Us</a></li>
+                </ul>
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="p-6">
