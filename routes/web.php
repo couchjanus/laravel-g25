@@ -51,8 +51,8 @@ Route::name('admin.')->group(
     function() {
         Route::get('/admin', 'App\Http\Controllers\Admin\DashboardController')->name('dashboard');
 
-        Route::resource('brands', 'App\Http\Controllers\Admin\BrandController');
-        Route::resource('categories', 'App\Http\Controllers\Admin\CategoryController');
+        Route::resource('admin/brands', 'App\Http\Controllers\Admin\BrandController');
+        Route::resource('admin/categories', 'App\Http\Controllers\Admin\CategoryController');
     }
 );
 

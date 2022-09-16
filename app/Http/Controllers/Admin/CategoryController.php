@@ -14,7 +14,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = \DB::table('categories')->get();
+        // $categories = [];
+        return view('admin.categories.index', [
+            'title'=>"Categories List",
+            'categories'=>$categories,
+            'html'=>"<strong style='color:red;'>Opps its HTML code</strong>"
+        ]);
     }
 
     /**
@@ -24,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create', ['title'=>"Create Category"]);
     }
 
     /**
@@ -35,7 +41,29 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $errors = [];
+        $status = $request->status ? 1 : 0;
+if (isset($request->name) and isset($request->description)) {
+    \DB::table('categories')->insert(
+        [
+            'name' => $request->name,
+            'description' => $request->description,
+            'status' => $status
+        ]
+    );
+    return redirect('/admin/categories');
+    }else{
+        if(!isset($request->name))
+            $errors['name'] = "Name is required!";
+        if(!isset($request->description))
+            $errors['description'] = "Description is required!";
+
+        return back()
+            ->withInput()
+            ->withErrors($errors);
+    }
+
     }
 
     /**
@@ -57,7 +85,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = \DB::table('categories')->find($id);
+        return view('admin.categories.edit', ['title'=>"Edit Category", 'category'=>$category]);
     }
 
     /**
@@ -69,7 +98,29 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $errors = [];
+        $status = $request->status ? 1 : 0;
+        if (isset($request->name) and isset($request->description)) {
+            \DB::table('categories')
+            ->where('id', $id)
+            ->update(
+            [
+            'name' => $request->name,
+            'description' => $request->description,
+            'status' => $status
+            ]
+        );
+        return redirect('/admin/categories');
+        }else{
+            if(!isset($request->name))
+                $errors['name'] = "Name is required!";
+            if(!isset($request->description))
+                $errors['description'] = "Description is required!";
+
+            return back()
+                ->withInput()
+                ->withErrors($errors);
+        }
     }
 
     /**
@@ -80,6 +131,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        \DB::table('categories')
+            ->where('id', $id)
+            ->delete();
+        return redirect('/admin/categories');
     }
 }
