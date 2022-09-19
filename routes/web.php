@@ -14,8 +14,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('components.welcome');
+})->name('home');
+
+
+
+Route::get('/contact', function () {
+    return view('components.contact-page');
+})->name('contact');
+
+
+
+Route::get('/about', function () {
+    return view('components.about-page');
+})->name('about');
 
 Route::get('/test', function () {
     // $brands = \DB::table('brands')->get();
@@ -44,8 +56,8 @@ Route::get('/test', function () {
 
 });
 
-Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about-us');
-Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact-us');
+// Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about-us');
+// Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact-us');
 
 Route::name('admin.')->group(
     function() {
@@ -56,3 +68,13 @@ Route::name('admin.')->group(
     }
 );
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
