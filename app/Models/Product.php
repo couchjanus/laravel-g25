@@ -10,6 +10,13 @@ class Product extends Model
 {
     use HasFactory, Sluggable;
 
+    protected $fillable = ['name', 'slug', 'details', 'price', 'cover', 'description', 'status', 'category_id', 'brand_id'];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function sluggable(): array
     {
         return [
