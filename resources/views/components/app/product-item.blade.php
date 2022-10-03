@@ -18,8 +18,10 @@
                <div class="flex-auto p-2 justify-evenly">
                 <div class="flex flex-wrap ">
                   <div class="flex items-center justify-between w-full min-w-0 ">
+                    <a href="{{ route('product.details', $product->id) }}">
 
-                    <h2 class="mr-auto text-lg cursor-pointer hover:text-gray-900 font-semibold">{{ \Illuminate\Support\Str::limit($product->name, 25, $end='...') }}</h2>
+                        <h2 class="mr-auto text-lg cursor-pointer hover:text-gray-900 font-semibold">{{ \Illuminate\Support\Str::limit($product->name, 25, $end='...') }}</h2>
+                    </a>
 
                     <div class="mt-1 text-xl font-semibold">${{ $product->price }}</div>
                   </div>
