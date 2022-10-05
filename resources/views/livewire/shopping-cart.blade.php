@@ -1,3 +1,4 @@
+<div>
 <style>
     [x-cloak] { display: none; }
 </style>
@@ -26,111 +27,48 @@
                 </th>
                 <th class="hidden text-right md:table-cell">Unit price</th>
                 <th class="text-right">Total price</th>
+                <th class="text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="hidden pb-4 md:table-cell">
-                  <a href="#">
-                    <img src="https://limg.app/i/Calm-Cormorant-Catholic-Pinball-Blaster-yM4oub.jpeg" class="w-20 rounded" alt="Thumbnail">
-                  </a>
-                </td>
-                <td>
-                  <a href="#">
-                    <p class="mb-2 md:ml-4">Earphone</p>
-                    <form action="" method="POST">
-                      <button type="submit" class="text-gray-700 md:ml-4">
-                        <small>(Remove item)</small>
-                      </button>
-                    </form>
-                  </a>
-                </td>
-                <td class="justify-center md:justify-end md:flex mt-6">
-                  <div class="w-20 h-10">
-                    <div class="relative flex flex-row w-full h-8">
-                    <input type="number" value="2" 
-                      class="w-full font-semibold text-center text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
+                @forelse ($cartItems as $item)
+                <tr>
+                    <td class="hidden pb-4 md:table-cell">
+                      <a href="#">
+                        <img src="{{ asset(Storage::url($item['attributes']['image'])) }}" class="w-20 rounded" alt="Thumbnail">
+                      </a>
+                    </td>
+                    <td>
+                        <a href="#">
+                          <p class="mb-2 md:ml-4">{{ $item['name'] }}</p>
+                        </a>
+                      </td>
+                      <td class="justify-center md:justify-end md:flex mt-6">
+                        <div class="w-30 h-10">
+                            <div class="relative flex flex-row w-full h-8">
+                        <livewire:cart-update :item="$item" :key="$item['id']" />
                     </div>
-                  </div>
-                </td>
-                <td class="hidden text-right md:table-cell">
-                  <span class="text-sm lg:text-base font-medium">
-                    10.00€
-                  </span>
-                </td>
-                <td class="text-right">
-                  <span class="text-sm lg:text-base font-medium">
-                    20.00€
-                  </span>
-                </td>
-              </tr> 
-              <tr>
-                <td class="hidden pb-4 md:table-cell">
-                  <a href="#">
-                    <img src="https://limg.app/i/Cute-Constrictor-Super-Sexy-Military-Enforcer-W7mvBp.png" class="w-20 rounded" alt="Thumbnail">
-                  </a>
-                </td>
-                <td>
-                  <p class="mb-2 md:ml-4">Tesla Model 3</p>
-                  <form action="" method="POST">
-                    <button type="submit" class="text-gray-700 md:ml-4">
-                      <small>(Remove item)</small>
-                    </button>
-                  </form>
-                </td>
-                <td class="justify-center md:justify-end md:flex md:mt-4">
-                <div class="w-20 h-10">
-                  <div class="relative flex flex-row w-full h-8">
-                  <input type="number" value="3" 
-                    class="w-full font-semibold text-center text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
-                  </div>
                 </div>
-                </td>
-                <td class="hidden text-right md:table-cell">
-                  <span class="text-sm lg:text-base font-medium">
-                    49,600.01€
-                  </span>
-                </td>
-                <td class="text-right">
-                  <span class="text-sm lg:text-base font-medium">
-                    148,800.03€
-                  </span>
-                </td>
-              </tr> 
-              <tr>
-                <td class="hidden pb-4 md:table-cell">
-                  <a href="#">
-                    <img src="https://limg.app/i/Successful-Spider-Biblical-Mutant---Total-War-lKoE7D.jpeg" class="w-20 rounded" alt="Thumbnail">
-                  </a>
-                </td>
-                <td>
-                  <p class="mb-2 md:ml-4">Bic 4 colour pen</p>
-                  <form action="" method="POST">
-                    <button type="submit" class="text-gray-700 md:ml-4">
-                      <small>(Remove item)</small>
-                    </button>
-                  </form>
-                </td>
-                <td class="justify-center md:justify-end md:flex md:mt-8">
-                <div class="w-20 h-10">
-                  <div class="relative flex flex-row w-full h-8">
-                  <input type="number" value="5" 
-                    class="w-full font-semibold text-center text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
-                  </div>
-                </div>
-
-                </td>
-                <td class="hidden text-right md:table-cell">
-                  <span class="text-sm lg:text-base font-medium">
-                    1.50€
-                  </span>
-                </td>
-                <td class="text-right">
-                  <span class="text-sm lg:text-base font-medium">
-                    7.50€
-                  </span>
-                </td>
-              </tr> 
+                      </td>
+                      <td class="hidden text-right md:table-cell">
+                        <span class="text-sm lg:text-base font-medium">
+                          {{ number_format($item['price'], 2) }}€
+                        </span>
+                      </td>
+                      <td class="text-right">
+                        <span class="text-sm lg:text-base font-medium">
+                            {{ number_format($item['price']*$item['quantity'], 2) }}€
+                        </span>
+                      </td>
+                      <td class="text-right">
+                          <button class="mr-2 mt-1 lg:mt-2" wire:click.prevent="remove('{{ $item['id'] }}')">
+                            <x-app.trash-alt />
+                          </button>
+                      </td>
+                    </tr>
+                @empty
+                    <h4>Not items yet</h4>
+                @endforelse
             </tbody>
           </table>
           <hr class="pb-6 mt-6">
@@ -173,14 +111,14 @@
                       Subtotal
                     </div>
                     <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                      148,827.53€
+                      {{ \Cart::getSubTotal() }}€
                     </div>
                   </div>
                     <div class="flex justify-between pt-4 border-b">
                       <div class="flex lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-gray-800">
                         <form action="" method="POST">
                           <button type="submit" class="mr-2 mt-1 lg:mt-2">
-                            <svg aria-hidden="true" data-prefix="far" data-icon="trash-alt" class="w-4 text-red-600 hover:text-red-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M268 416h24a12 12 0 0012-12V188a12 12 0 00-12-12h-24a12 12 0 00-12 12v216a12 12 0 0012 12zM432 80h-82.41l-34-56.7A48 48 0 00274.41 0H173.59a48 48 0 00-41.16 23.3L98.41 80H16A16 16 0 000 96v16a16 16 0 0016 16h16v336a48 48 0 0048 48h288a48 48 0 0048-48V128h16a16 16 0 0016-16V96a16 16 0 00-16-16zM171.84 50.91A6 6 0 01177 48h94a6 6 0 015.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0012-12V188a12 12 0 00-12-12h-24a12 12 0 00-12 12v216a12 12 0 0012 12z"/></svg>
+                            <x-app.trash-alt />
                           </button>
                         </form>
                         Coupon "90off"
@@ -227,4 +165,5 @@
     </div>
 
   </div>
+</div>
 </div>

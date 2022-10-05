@@ -27,7 +27,7 @@ Route::get('/about', function () {
 
 Route::get('/upload/{id}', App\Http\Livewire\UploadPictures::class)->name('upload-pictures');
 route::get('product-details/{id}',App\Http\Livewire\ShowProduct::class)->name('product.details');
-route::get('shopping-cart',App\Http\Livewire\ShoppingCart::class)->name('shopping.cart');
+route::get('shopping-cart', App\Http\Livewire\ShoppingCart::class)->name('shopping.cart');
 
 // Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact-us');
 
